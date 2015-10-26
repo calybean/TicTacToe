@@ -259,6 +259,10 @@ function computer_move() {
         boardArray[6] = "c";
         document.getElementById("6").innerHTML = img;
         check_for_computer_win();
+      } else if (arraysIdentical(boardArray, userX048) || arraysIdentical(boardArray, userX246)) { //check for user in top left and bottom right, or top right and bottom left
+        boardArray[1] = "c";
+        document.getElementById("1").innerHTML = img;
+        check_for_computer_win();
       } else { //otherwise, go somewhere else:
         if(arraysIdentical(boardArray, uR1) || arraysIdentical(boardArray, uR3) || arraysIdentical(boardArray, uR5) || arraysIdentical(boardArray, uR7)) {
           boardArray[4] = "c";
@@ -723,6 +727,9 @@ var uR5 = ["c", 0, 0, 0, 0, "u", 0, 0, 0];
 var uR6 = ["c", 0, 0, 0, 0, 0, "u", 0, 0];
 var uR7 = ["c", 0, 0, 0, 0, 0, 0, "u", 0];
 var uR8 = ["c", 0, 0, 0, 0, 0, 0, 0, "u"];
+
+var userX048 = ["u", 0, 0, 0, "c", 0, 0, 0, "u"];
+var userX246 = [0, 0, "u", 0, "c", 0, "u", 0, 0];
 
 //for if user chooses X:
 var userCorner0 = ["u", 0, 0, 0, 0, 0, 0, 0, 0];

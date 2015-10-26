@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>Tic Tac Toe</title>
+
+  <link rel="stylesheet" type="text/css" href="tictactoe.css">
+  <script src="tictactoe.js"></script>
+</head>
+<body>
+  <h1 id="title" align="center"><u>Tic Tac Toe</u></h1>
+
+  <div id="choose_team" align="center"><font size="5">Would you like to be X's or O's? (Remember: X's go first!)</font></div>
+  <div align="center" width="200px">
+    <div>
+      <input id="x_button" class="button" type="button" value="X's" onclick="x_click()"></input>
+      <input id="o_button" class="button" type="button" value="O's" onclick="o_click()"></input>
+    </div>
+  </div>
+
+  <div id="game_end">Computer Wins!</div>
+
+  <table id="board" align="center">
+    <tr>
+      <td id="0"></td>
+      <td id="1"></td>
+      <td id="2"></td>
+    </tr>
+    <tr>
+      <td id="3"></td>
+      <td id="4"></td>
+      <td id="5"></td>
+    </tr>
+    <tr>
+      <td id="6"></td>
+      <td id="7"></td>
+      <td id="8"></td>
+    </tr>
+  </table>
+</body>
+</html>

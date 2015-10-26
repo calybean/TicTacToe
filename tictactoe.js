@@ -1,3 +1,7 @@
+// Joseph Cannon
+// Oct 26, 2015
+// All code written by myself upon request from Telenotes
+
 function cell_click() {
   var previousCell;
   var currentCell = 1; //this needs to be initialized to work the first time.
@@ -262,6 +266,14 @@ function computer_move() {
       } else if (arraysIdentical(boardArray, userX048) || arraysIdentical(boardArray, userX246)) { //check for user in top left and bottom right, or top right and bottom left
         boardArray[1] = "c";
         document.getElementById("1").innerHTML = img;
+        check_for_computer_win();
+      } else if (arraysIdentical(boardArray, userX047) || arraysIdentical(boardArray, userX456)) { //check for user in top right and bottom middle, or bottom left and right middle
+        boardArray[8] = "c";
+        document.getElementById("8").innerHTML = img;
+        check_for_computer_win();
+      } else if (arraysIdentical(boardArray, userX247)) { //check for user in top left and bottom middle
+        boardArray[6] = "c";
+        document.getElementById("6").innerHTML = img;
         check_for_computer_win();
       } else { //otherwise, go somewhere else:
         if(arraysIdentical(boardArray, uR1) || arraysIdentical(boardArray, uR3) || arraysIdentical(boardArray, uR5) || arraysIdentical(boardArray, uR7)) {
@@ -718,7 +730,6 @@ var boardArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 //boardArray constants:
 
 //user responses (user is O):
-
 var uR1 = ["c", "u", 0, 0, 0, 0, 0, 0, 0];
 var uR2 = ["c", 0, "u", 0, 0, 0, 0, 0, 0];
 var uR3 = ["c", 0, 0, "u", 0, 0, 0, 0, 0];
@@ -728,8 +739,6 @@ var uR6 = ["c", 0, 0, 0, 0, 0, "u", 0, 0];
 var uR7 = ["c", 0, 0, 0, 0, 0, 0, "u", 0];
 var uR8 = ["c", 0, 0, 0, 0, 0, 0, 0, "u"];
 
-var userX048 = ["u", 0, 0, 0, "c", 0, 0, 0, "u"];
-var userX246 = [0, 0, "u", 0, "c", 0, "u", 0, 0];
 
 //for if user chooses X:
 var userCorner0 = ["u", 0, 0, 0, 0, 0, 0, 0, 0];
@@ -741,6 +750,12 @@ var userEdge1 = [0, "u", 0, 0, 0, 0, 0, 0, 0];
 var userEdge3 = [0, 0, 0, "u", 0, 0, 0, 0, 0];
 var userEdge5 = [0, 0, 0, 0, 0, "u", 0, 0, 0];
 var userEdge7 = [0, 0, 0, 0, 0, 0, 0, "u", 0];
+//2 special cases where the user used to be able to win:
+var userX048 = ["u", 0, 0, 0, "c", 0, 0, 0, "u"];
+var userX246 = [0, 0, "u", 0, "c", 0, "u", 0, 0];
+var userX047 = ["u", 0, 0, 0, "c", 0, 0, "u", 0];
+var userX247 = [0, 0, "u", 0, "c", 0, 0, "u", 0];
+var userX456 = [0, 0, 0, 0, "c", "u", "u", 0, 0];
 
 if (document && document.getElementById) {
   window.onload = cell_click;

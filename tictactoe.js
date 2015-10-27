@@ -340,6 +340,7 @@ function computer_move() {
         document.getElementById("0").innerHTML = img;
         check_for_computer_win();
       } else {
+
         //"almost win" scenarios:
         //01, 02, 03, 04, 06, 08, 12, 14, 17, 24, 25, 26, 28, 34, 35, 36, 45, 46, 47, 48, 58, 67, 68, 78
 
@@ -440,7 +441,7 @@ function computer_move() {
           boardArray[6] = "c";
           document.getElementById("6").innerHTML = img;
           check_for_computer_win();
-        } else if(boardArray[0] === "u" && boardArray[1] === "u" && boardArray[2] ===0) { //01  ------------Check for user almost win
+        } else if(boardArray[0] === "u" && boardArray[1] === "u" && boardArray[2] ===0) { //01  See if we need to block the user:
           boardArray[2] = "c";
           document.getElementById("2").innerHTML = img;
           check_for_computer_win();
@@ -536,7 +537,7 @@ function computer_move() {
           boardArray[6] = "c";
           document.getElementById("6").innerHTML = img;
           check_for_computer_win();
-        } else { //otherwise, go somewhere else:
+        } else { //otherwise, check for special cases:
           if(arraysIdentical(boardArray, uR1) || arraysIdentical(boardArray, uR3) || arraysIdentical(boardArray, uR5) || arraysIdentical(boardArray, uR7)) {
             boardArray[4] = "c";
             document.getElementById("4").innerHTML = img;
@@ -553,7 +554,11 @@ function computer_move() {
             boardArray[6] = "c";
             document.getElementById("6").innerHTML = img;
             check_for_computer_win();
-          } else {
+          } else if (arraysIdentical(boardArray, c0148)) {
+            boardArray[6] = "c";
+            document.getElementById("6").innerHTML = img;
+            check_for_computer_win();
+          } else { //if we can't win, block, or plan for special cases, go in this order of priority:
             if(boardArray[0] === 0) {
               boardArray[0] = "c";
               document.getElementById("0").innerHTML = img;
@@ -631,36 +636,57 @@ function game_over(msg) {
   win_bool = true;
   win_div.innerHTML = msg;
   win_div.style.display = "block";
-//  alert(msg);
-//  location.reload();
-  setTimeout(refresh_delay, 2000);
+  //update counts:
+  document.getElementById("u_wins").innerHTML = u_wins;
+  document.getElementById("c_wins").innerHTML = c_wins;
+  document.getElementById("draws").innerHTML = draws;
+  setTimeout(reset_delay, 2000);
 }
 
-function refresh_delay() {
-  location.reload();
+function reset_delay() {
+  win_bool = false; //reset win_bool
+  document.getElementById("game_end").style.display = "none"; //hide game_end div
+  document.getElementById("x_button").style.color = color_text; //reset buttons text color
+  document.getElementById("o_button").style.color = color_text;
+  userTeam = ""; //reset userTeam
+  team_chosen = false; //reset team_chosen
+  boardArray = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //reset boardArray
+  var cells = document.getElementsByTagName("td");
+  //reset contents of all cells
+  for(var i = 0; i < numCells; i++) {
+    cells[i].innerHTML = "";
+  }
 }
 
 function check_for_user_win() {
   msg = "You win!";
   if (boardArray[0] === "u" && boardArray[1] === "u" && boardArray[2] === "u") {
+    u_wins++;
     game_over(msg);
   } else if (boardArray[0] === "u" && boardArray[4] === "u" && boardArray[8] === "u") {
+    u_wins++;
     game_over(msg);
   } else if (boardArray[0] === "u" && boardArray[3] === "u" && boardArray[6] === "u") {
+    u_wins++;
     game_over(msg);
   } else if (boardArray[1] === "u" && boardArray[4] === "u" && boardArray[7] === "u") {
+    u_wins++;
     game_over(msg);
   } else if (boardArray[2] === "u" && boardArray[4] === "u" && boardArray[6] === "u") {
+    u_wins++;
     game_over(msg);
   } else if (boardArray[2] === "u" && boardArray[5] === "u" && boardArray[8] === "u") {
+    u_wins++;
     game_over(msg);
   } else if (boardArray[3] === "u" && boardArray[4] === "u" && boardArray[5] === "u") {
+    u_wins++;
     game_over(msg);
   } else if (boardArray[6] === "u" && boardArray[7] === "u" && boardArray[8] === "u") {
+    u_wins++;
     game_over(msg);
   } else {
-    check_for_draw();
     //nobody won this turn.
+    check_for_draw();
   }
 }
 
@@ -668,24 +694,32 @@ function check_for_computer_win() {
   var msg = "Computer wins!";
   var win_div = document.getElementById("game_end");
   if (boardArray[0] === "c" && boardArray[1] === "c" && boardArray[2] === "c") {
+    c_wins++;
     game_over(msg);
   } else if (boardArray[0] === "c" && boardArray[4] === "c" && boardArray[8] === "c") {
+    c_wins++;
     game_over(msg);
   } else if (boardArray[0] === "c" && boardArray[3] === "c" && boardArray[6] === "c") {
+    c_wins++;
     game_over(msg);
   } else if (boardArray[1] === "c" && boardArray[4] === "c" && boardArray[7] === "c") {
+    c_wins++;
     game_over(msg);
   } else if (boardArray[2] === "c" && boardArray[4] === "c" && boardArray[6] === "c") {
+    c_wins++;
     game_over(msg);
   } else if (boardArray[2] === "c" && boardArray[5] === "c" && boardArray[8] === "c") {
+    c_wins++;
     game_over(msg);
   } else if (boardArray[3] === "c" && boardArray[4] === "c" && boardArray[5] === "c") {
+    c_wins++;
     game_over(msg);
   } else if (boardArray[6] === "c" && boardArray[7] === "c" && boardArray[8] === "c") {
+    c_wins++;
     game_over(msg);
   } else {
-    check_for_draw();
     //nobody won this turn.
+    check_for_draw();
   }
 }
 
@@ -697,6 +731,7 @@ function check_for_draw() {
     }
   }
   if (count == 9) {
+    draws++;
     game_over("It's a draw!");
   }
 }
@@ -709,6 +744,8 @@ function change_back() {
   document.getElementById("choose_team").style.color = color_text;
   setTimeout(change_to_red, 200);
 }
+
+//vars, constants, etc
 
 var team_chosen = false;
 var numCells = 9;
@@ -724,12 +761,17 @@ var color_table_bg_selected = "#4C5760"
 var color_bg= "#028090";
 var color_red = "#F05D5E";
 
+//count how many wins, losses and draws:
+var u_wins = 0;
+var c_wins = 0;
+var draws = 0;
+
 //start with an empty board
 var boardArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 //boardArray constants:
 
-//user responses (user is O):
+//user responses:
 var uR1 = ["c", "u", 0, 0, 0, 0, 0, 0, 0];
 var uR2 = ["c", 0, "u", 0, 0, 0, 0, 0, 0];
 var uR3 = ["c", 0, 0, "u", 0, 0, 0, 0, 0];
@@ -738,6 +780,8 @@ var uR5 = ["c", 0, 0, 0, 0, "u", 0, 0, 0];
 var uR6 = ["c", 0, 0, 0, 0, 0, "u", 0, 0];
 var uR7 = ["c", 0, 0, 0, 0, 0, 0, "u", 0];
 var uR8 = ["c", 0, 0, 0, 0, 0, 0, 0, "u"];
+
+var c0148 = ["c", "u", 0, 0, "c", 0, 0, 0, "u"]; //go in 6 here, not 2
 
 
 //for if user chooses X:
